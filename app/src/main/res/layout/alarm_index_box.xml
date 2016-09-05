@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/alarm_active"
+            android:src="@android:drawable/ic_lock_idle_alarm"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_name"
+                android:text="asdasd"
+                android:textColor="@color/colorTitle"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm_time"
+                android:text="00:00"
+                android:layout_below="@id/alarm_name"
+                android:textSize="30sp"
+                android:textColor="#878787"/>
+        </RelativeLayout>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/alarm_active_switch"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end|center"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
