@@ -53,7 +53,7 @@ public class AddAlarmFragment extends android.support.v4.app.Fragment implements
             @Override
             public void onClick(View v) {
                 EditText editText = (EditText) getActivity().findViewById(R.id.name_new_alarm);
-                fcomm.response(new AlarmType(editText.getText().toString(),
+                fcomm.response(new AlarmType(getActivity().getApplicationContext(), editText.getText().toString(),
                                              alarmTime.getText().toString())
                 );
             }

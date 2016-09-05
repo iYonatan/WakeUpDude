@@ -1,13 +1,10 @@
 package com.example.yonatan.wakeupdude;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
 
-import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.example.yonatan.wakeupdude.Config.config;
 import com.example.yonatan.wakeupdude.Costum.AlarmManagerBroadcastReceiver;
 
@@ -20,28 +17,26 @@ import java.util.regex.Pattern;
  */
 public class AlarmType{
 
-    private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
-
-
     public String mName, mAlarmTime;
     private int mHour, mMinute;
     private boolean mActivation;
 
-    public AlarmType(String name, String alarmTime){
+    private Context mContext;
+    private AlarmManager mAlarmMgr;
+    private PendingIntent mAlarmIntent;
+    private Intent mIntentToAlarmActivity;
+
+    public AlarmType(Context context, String name, String alarmTime){
         this.mName = name;
         this.mAlarmTime = alarmTime;
         this.mActivation = true;
+        this.mContext = context;
+
+        this.mAlarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+        this.mIntentToAlarmActivity = new Intent(this.mContext, AlarmManagerBroadcastReceiver.class);
+        this.mAlarmIntent = PendingIntent.getBroadcast(this.mContext, 0, this.mIntentToAlarmActivity, 0);
+
         this.setHourMinute();
-    }
-
-    private void setHourMinute() {
-        String[] timeSplit = this.mAlarmTime.split(Pattern.quote(config.TIME_DIVIDER));
-        this.mHour = Integer.valueOf(timeSplit[0]);
-        this.mMinute = Integer.valueOf(timeSplit[1]);
-    }
-
-    public void setActivation(boolean activation){
-        this.mActivation = activation;
     }
 
     public String getName(){
@@ -64,28 +59,36 @@ public class AlarmType{
         return this.mActivation;
     }
 
-    public void setAlarm(Context context){
+    private void setHourMinute() {
+        String[] timeSplit = this.mAlarmTime.split(Pattern.quote(config.TIME_DIVIDER));
+        this.mHour = Integer.valueOf(timeSplit[0]);
+        this.mMinute = Integer.valueOf(timeSplit[1]);
+    }
 
-        AlarmManager am =( AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
+    public void setAlarmTime(String alternativeTime){
+        this.mAlarmTime = alternativeTime;
+        this.setHourMinute();
 
+    }
+
+    public void setActivation(boolean activation){
+        this.mActivation = activation;
+    }
+
+    public void setAlarm(){
         // Set the alarm time
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.getmHour());
         calendar.set(Calendar.MINUTE, this.getmMinute());
 
-        // setRepeating() lets you specify a precise custom interval--in this case,
-        // Once a day.
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        // setRepeating() lets you specify a precise custom interval--in this case, Once a day.
+        this.mAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, this.mAlarmIntent);
     }
 
-    public void cancelAlarm(Context context){
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
+    public void cancelAlarm(){
+        this.mAlarmMgr.cancel(this.mAlarmIntent);
+        System.out.println("Alarm Canceled");
     }
 
 

@@ -83,16 +83,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.alarmTime.setText(alarmInfo.getTime());
         holder.alarmSwitch.setChecked(true);
 
-        alarmInfo.setAlarm(activity);
+        alarmInfo.setAlarm();
 
         holder.alarmSwitch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(alarmInfo.isActive()){
-                    alarmInfo.cancelAlarm(activity);
+                    alarmInfo.cancelAlarm();
                     alarmInfo.setActivation(false);
                 } else {
-                    alarmInfo.setAlarm(activity);
+                    alarmInfo.setAlarm();
                     alarmInfo.setActivation(true);
                 }
             }
@@ -103,6 +103,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             public void onClick(View v) {
                 FragmentManager fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
                 holder.onCreateRadialTime(fragmentManager);
+                alarmInfo.cancelAlarm();
+                alarmInfo.setAlarmTime(holder.alarmTime.getText().toString());
+                alarmInfo.setAlarm();
+
 
             }
         });
