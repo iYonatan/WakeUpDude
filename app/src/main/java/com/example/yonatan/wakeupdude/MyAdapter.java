@@ -104,6 +104,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 FragmentManager fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
                 holder.onCreateRadialTime(fragmentManager);
                 alarmInfo.cancelAlarm();
+                alarmInfo.setActivation(true);
+                holder.alarmSwitch.setChecked(true);
                 alarmInfo.setAlarmTime(holder.alarmTime.getText().toString());
                 alarmInfo.setAlarm();
 

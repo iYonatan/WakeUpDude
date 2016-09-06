@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class AlarmType{
 
     public String mName, mAlarmTime;
-    private int mHour, mMinute;
+    private int mAlarmRequestCode, mHour, mMinute;
     private boolean mActivation;
 
     private Context mContext;
@@ -29,11 +29,13 @@ public class AlarmType{
     /**
      * Constructor.
      *
+     * @param alarmRequestCode
      * @param context   main context
      * @param name      alarm name
      * @param alarmTime alarm time in String (ex: 17:27)
      */
-    public AlarmType(Context context, String name, String alarmTime) {
+    public AlarmType(int alarmRequestCode, Context context, String name, String alarmTime) {
+        this.mAlarmRequestCode = alarmRequestCode;
         this.mName = name; // Alarm name
         this.mAlarmTime = alarmTime; // Alarm time
         this.mActivation = true; // Alarm activation
@@ -42,7 +44,7 @@ public class AlarmType{
         // Getting alarm service.
         this.mAlarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
         this.mIntentToAlarmActivity = new Intent(this.mContext, AlarmManagerBroadcastReceiver.class);
-        this.mAlarmIntent = PendingIntent.getBroadcast(this.mContext, 0, this.mIntentToAlarmActivity, 0);
+        this.mAlarmIntent = PendingIntent.getBroadcast(this.mContext, this.mAlarmRequestCode, this.mIntentToAlarmActivity, 0);
 
         // Setting the hour and the minute of the alarm.
         this.setHourMinute();

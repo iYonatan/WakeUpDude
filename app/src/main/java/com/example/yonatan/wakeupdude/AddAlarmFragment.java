@@ -23,9 +23,10 @@ public class AddAlarmFragment extends android.support.v4.app.Fragment implements
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
 
     FragmentCommunicator fcomm;
+
     private Button onSave;
     private TextView alarmTime;
-
+    private static int alarmRequestCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class AddAlarmFragment extends android.support.v4.app.Fragment implements
             @Override
             public void onClick(View v) {
                 EditText editText = (EditText) getActivity().findViewById(R.id.name_new_alarm);
-                fcomm.response(new AlarmType(getActivity().getApplicationContext(), editText.getText().toString(),
+                fcomm.response(new AlarmType(alarmRequestCode++, getActivity().getApplicationContext(), editText.getText().toString(),
                                              alarmTime.getText().toString())
                 );
             }
