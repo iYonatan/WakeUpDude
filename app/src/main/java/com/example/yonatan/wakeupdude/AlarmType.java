@@ -26,55 +26,101 @@ public class AlarmType{
     private PendingIntent mAlarmIntent;
     private Intent mIntentToAlarmActivity;
 
-    public AlarmType(Context context, String name, String alarmTime){
-        this.mName = name;
-        this.mAlarmTime = alarmTime;
-        this.mActivation = true;
-        this.mContext = context;
+    /**
+     * Constructor.
+     *
+     * @param context   main context
+     * @param name      alarm name
+     * @param alarmTime alarm time in String (ex: 17:27)
+     */
+    public AlarmType(Context context, String name, String alarmTime) {
+        this.mName = name; // Alarm name
+        this.mAlarmTime = alarmTime; // Alarm time
+        this.mActivation = true; // Alarm activation
+        this.mContext = context; // Main context
 
+        // Getting alarm service.
         this.mAlarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
         this.mIntentToAlarmActivity = new Intent(this.mContext, AlarmManagerBroadcastReceiver.class);
         this.mAlarmIntent = PendingIntent.getBroadcast(this.mContext, 0, this.mIntentToAlarmActivity, 0);
 
+        // Setting the hour and the minute of the alarm.
         this.setHourMinute();
     }
 
+    /**
+     * Get method.
+     * @return the name of the alarm
+     */
     public String getName(){
         return this.mName;
     }
 
+    /**
+     * Get method.
+     * @return Alarm's time
+     */
     public String getTime(){
         return this.mAlarmTime;
     }
 
+    /**
+     * Get method
+     * @return Alarm's hour
+     */
     public int getmHour(){
         return this.mHour;
     }
 
+    /**
+     * Get method.
+     * @return Alarm's minute
+     */
     public int getmMinute(){
         return this.mMinute;
     }
 
+    /**
+     * @return if the alarm is active or not.
+     */
     public boolean isActive(){
         return this.mActivation;
     }
 
+    /**
+     * Set method.
+     * setting alarm's hour and minute by splitting the alarm time.
+     */
     private void setHourMinute() {
         String[] timeSplit = this.mAlarmTime.split(Pattern.quote(config.TIME_DIVIDER));
         this.mHour = Integer.valueOf(timeSplit[0]);
         this.mMinute = Integer.valueOf(timeSplit[1]);
     }
 
+    /**
+     * Set method.
+     * setting different alarm time from outside
+     * @param alternativeTime alternative time for alarm
+     */
     public void setAlarmTime(String alternativeTime){
         this.mAlarmTime = alternativeTime;
         this.setHourMinute();
 
     }
 
+    /**
+     * Set method.
+     * setting alarm activation
+     * @param activation
+     */
     public void setActivation(boolean activation){
         this.mActivation = activation;
     }
 
+    /**
+     * Set method.
+     * Setting new alarm
+     */
     public void setAlarm(){
         // Set the alarm time
         Calendar calendar = Calendar.getInstance();
@@ -86,11 +132,10 @@ public class AlarmType{
         this.mAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, this.mAlarmIntent);
     }
 
+    /**
+     * Canceling alarm
+     */
     public void cancelAlarm(){
         this.mAlarmMgr.cancel(this.mAlarmIntent);
-        System.out.println("Alarm Canceled");
     }
-
-
-
 }
