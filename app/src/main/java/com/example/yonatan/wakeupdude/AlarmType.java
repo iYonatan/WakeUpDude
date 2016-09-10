@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.example.yonatan.wakeupdude.Config.config;
 import com.example.yonatan.wakeupdude.Costum.AlarmManagerBroadcastReceiver;
@@ -44,6 +45,7 @@ public class AlarmType{
         // Getting alarm service.
         this.mAlarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
         this.mIntentToAlarmActivity = new Intent(this.mContext, AlarmManagerBroadcastReceiver.class);
+        this.mIntentToAlarmActivity.putExtra("Time", this.getTime());
         this.mAlarmIntent = PendingIntent.getBroadcast(this.mContext, this.mAlarmRequestCode, this.mIntentToAlarmActivity, 0);
 
         // Setting the hour and the minute of the alarm.
@@ -129,9 +131,13 @@ public class AlarmType{
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.getmHour());
         calendar.set(Calendar.MINUTE, this.getmMinute());
+        calendar.set(Calendar.SECOND, 0);
 
+        System.out.println(calendar.getTimeInMillis());
         // setRepeating() lets you specify a precise custom interval--in this case, Once a day.
-        this.mAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, this.mAlarmIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            this.mAlarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + AlarmManager.INTERVAL_DAY, this.mAlarmIntent);
+        }
     }
 
     /**

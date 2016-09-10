@@ -28,7 +28,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder  implements RadialTimePickerDialogFragment.OnTimeSetListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements RadialTimePickerDialogFragment.OnTimeSetListener {
         private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
         public TextView alarmName, alarmTime;
         public Switch alarmSwitch;
@@ -46,14 +46,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                     .setOnTimeSetListener(ViewHolder.this)
                     .setForced24hFormat();
             rtpd.show(fragmentManager, FRAG_TAG_TIME_PICKER);
+
         }
 
 
         @Override
         public void onTimeSet(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute) {
-            alarmTime.setText(hourOfDay + config.TIME_DIVIDER + minute);
-        }
+            // Creating AlarmType object which handles the update of the selected alarm
+            final AlarmType alarmInfo = MyAdapter.this.mDataset.get(getAdapterPosition());
+            // Canceling current alarm
+            alarmInfo.cancelAlarm();
 
+            // Update the selected alarm time
+            alarmTime.setText(hourOfDay + config.TIME_DIVIDER + minute);
+
+            // Activates the selected alarm
+            alarmInfo.setActivation(true);
+            alarmSwitch.setChecked(true);
+
+            // Update the new alarm time to the object
+            alarmInfo.setAlarmTime(alarmTime.getText().toString());
+            // set the selected alarm with the new time
+            alarmInfo.setAlarm();
+        }
 
 
     }
@@ -103,13 +118,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             public void onClick(View v) {
                 FragmentManager fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
                 holder.onCreateRadialTime(fragmentManager);
-                alarmInfo.cancelAlarm();
-                alarmInfo.setActivation(true);
-                holder.alarmSwitch.setChecked(true);
-                alarmInfo.setAlarmTime(holder.alarmTime.getText().toString());
-                alarmInfo.setAlarm();
-
-
             }
         });
     }

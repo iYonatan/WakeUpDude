@@ -89,14 +89,10 @@ public class MainActivity extends AppCompatActivity implements FragmentCommunica
             public void onReceive(Context ctx, Intent intent) {
                 if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0)
                     displayTime.setText(_sdfWatchTime.format(new Date()));
-
-                if (intent.getAction().equals(Intent.ACTION_DATE_CHANGED))
-                    setDisplayMonthYear();
             }
         };
 
         registerReceiver(_broadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
-        registerReceiver(_broadcastReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
     }
 
     @Override

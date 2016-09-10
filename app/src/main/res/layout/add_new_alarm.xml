@@ -31,15 +31,28 @@
             android:layout_marginTop="10dp"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/time_new_alarm"
-                android:text="00.00"
+                android:text="0.0"
                 android:textSize="30sp"
                 android:clickable="true"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ToggleButton
+                    android:id="@+id/day_of_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/toggle_selector" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
