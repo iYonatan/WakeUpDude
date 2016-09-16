@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".WakeupActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+        </activity>
 
         <receiver android:process=":remote" android:name=".Costum.AlarmManagerBroadcastReceiver"/>
     </application>

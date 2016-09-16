@@ -2,7 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,19 +12,18 @@
         android:weightSum="1">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:id="@+id/alarm_active"
             android:src="@android:drawable/ic_lock_idle_alarm"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"/>
+            android:layout_gravity="center"/>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="16dp"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_gravity="bottom">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,11 +39,56 @@
                 android:id="@+id/alarm_time"
                 android:text="00:00"
                 android:layout_below="@id/alarm_name"
-                android:textSize="30sp"
-                android:textColor="#878787"/>
+                android:textSize="35sp"
+                android:textColor="#878787" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/display_repeat_days"
+                android:layout_alignBottom="@id/alarm_time"
+                android:layout_toRightOf="@id/alarm_time"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    style="@style/AppTheme.DisplayWeekDays"
+                    android:text="su," />
+
+                <TextView
+                    style="@style/AppTheme.DisplayWeekDays"
+                    android:text="mo," />
+
+                <TextView
+                    style="@style/AppTheme.DisplayWeekDays"
+                    android:text="tu," />
+
+                <TextView
+                    style="@style/AppTheme.DisplayWeekDays"
+                    android:text="we," />
+
+                <TextView
+                    style="@style/AppTheme.DisplayWeekDays"
+                    android:text="th," />
+
+                <TextView
+                    style="@style/AppTheme.DisplayWeekDays"
+                    android:text="fr,"
+                    android:gravity="left"/>
+
+                <TextView
+                    style="@style/AppTheme.DisplayWeekDays"
+                    android:text="sa"
+                    android:gravity="left"/>
+
+            </LinearLayout>
+
+
         </RelativeLayout>
 
+
+
         <Switch
+            style="@style/Widget.Holo.Light.CompoundButton.Switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/alarm_active_switch"
@@ -52,5 +97,19 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/extend_edit_box"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_week_days">
+
+            <include layout="@layout/days_of_week"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

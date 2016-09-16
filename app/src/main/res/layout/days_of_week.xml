@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ToggleButton
+        style="@style/AppTheme.WeekDays"
+        android:id="@+id/day_of_week_sun"
+        android:textOff="S"
+        android:textOn="S"/>
+
+    <ToggleButton
+        style="@style/AppTheme.WeekDays"
+        android:id="@+id/day_of_week_mon"
+        android:layout_toRightOf="@id/day_of_week_sun"
+        android:textOff="M"
+        android:textOn="M"/>
+
+    <ToggleButton
+        android:id="@+id/day_of_week_thu"
+        style="@style/AppTheme.WeekDays"
+        android:layout_toRightOf="@id/day_of_week_mon"
+        android:textOff="T"
+        android:textOn="T"/>
+
+    <ToggleButton
+        android:id="@+id/day_of_week_wen"
+        style="@style/AppTheme.WeekDays"
+        android:layout_toRightOf="@id/day_of_week_thu"
+        android:textOff="W"
+        android:textOn="W"/>
+
+    <ToggleButton
+        android:id="@+id/day_of_week_tue"
+        style="@style/AppTheme.WeekDays"
+        android:layout_toRightOf="@id/day_of_week_wen"
+        android:textOff="T"
+        android:textOn="T"/>
+
+    <ToggleButton
+        android:id="@+id/day_of_week_fri"
+        style="@style/AppTheme.WeekDays"
+        android:layout_toRightOf="@id/day_of_week_tue"
+        android:textOff="F"
+        android:textOn="F"/>
+
+    <ToggleButton
+        android:id="@+id/day_of_week_sat"
+        style="@style/AppTheme.WeekDays"
+        android:layout_toRightOf="@id/day_of_week_fri"
+        android:textOff="S"
+        android:textOn="S"/>
+
+</RelativeLayout>

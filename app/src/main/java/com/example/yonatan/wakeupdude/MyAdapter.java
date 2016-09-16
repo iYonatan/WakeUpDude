@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -32,12 +33,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
         public TextView alarmName, alarmTime;
         public Switch alarmSwitch;
+        public LinearLayout editRepeatDays, displayRepeatDays;
         public ViewHolder(View v) {
             super(v);
             alarmName = (TextView) v.findViewById(R.id.alarm_name);
             alarmTime = (TextView) v.findViewById(R.id.alarm_time);
             alarmSwitch = (Switch) v.findViewById(R.id.alarm_active_switch);
+            editRepeatDays = (LinearLayout) v.findViewById(R.id.edit_week_days);
+            displayRepeatDays = (LinearLayout) v.findViewById(R.id.display_repeat_days);
         }
+
+
 
 
         public void onCreateRadialTime(FragmentManager fragmentManager){
@@ -120,6 +126,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 holder.onCreateRadialTime(fragmentManager);
             }
         });
+        for (int day = 0; day < holder.editRepeatDays.getChildCount(); day++) {
+            final int finalDay = day;
+            System.out.println(finalDay);
+            holder.editRepeatDays.getChildAt(day).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    System.out.println(finalDay);
+                    ((TextView)holder.displayRepeatDays.getChildAt(finalDay)).setText("Selected");
+                }});
+        }
+        //holder.editRepeatDays.getChildAt(0).setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v) {}});
     }
 
 

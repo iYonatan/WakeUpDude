@@ -16,10 +16,11 @@ public class WakeupActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent fromAlarmAdapter = getIntent();
-        String alarmTime = fromAlarmAdapter.getStringExtra("Time");
         setContentView(R.layout.wakeup_layout);
         showAlarmTime = (TextView) findViewById(R.id.show_alarm_time);
+
+        Intent fromAlarmAdapter = getIntent();
+        String alarmTime = fromAlarmAdapter.getStringExtra("Time");
         showAlarmTime.setText(alarmTime);
 
 

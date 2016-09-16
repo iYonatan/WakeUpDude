@@ -9,6 +9,7 @@ import android.os.Build;
 import com.example.yonatan.wakeupdude.Config.config;
 import com.example.yonatan.wakeupdude.Costum.AlarmManagerBroadcastReceiver;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
@@ -21,6 +22,7 @@ public class AlarmType{
     public String mName, mAlarmTime;
     private int mAlarmRequestCode, mHour, mMinute;
     private boolean mActivation;
+    private ArrayList<Integer> mActiveRepeatDays;
 
     private Context mContext;
     private AlarmManager mAlarmMgr;
@@ -29,24 +31,32 @@ public class AlarmType{
 
     /**
      * Constructor.
-     *
-     * @param alarmRequestCode
+     *  @param alarmRequestCode
      * @param context   main context
      * @param name      alarm name
      * @param alarmTime alarm time in String (ex: 17:27)
+     * @param activeRepeatDays array of selected
      */
-    public AlarmType(int alarmRequestCode, Context context, String name, String alarmTime) {
+    public AlarmType(int alarmRequestCode, Context context, String name, String alarmTime, ArrayList<Integer> activeRepeatDays) {
         this.mAlarmRequestCode = alarmRequestCode;
         this.mName = name; // Alarm name
         this.mAlarmTime = alarmTime; // Alarm time
         this.mActivation = true; // Alarm activation
         this.mContext = context; // Main context
 
+        // Setting the repeat days of the week
+        this.mActiveRepeatDays = new ArrayList<>();
+        this.setActiveRepeatDays(activeRepeatDays);
+
         // Getting alarm service.
         this.mAlarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+
         this.mIntentToAlarmActivity = new Intent(this.mContext, AlarmManagerBroadcastReceiver.class);
-        this.mIntentToAlarmActivity.putExtra("Time", this.getTime());
+        this.mIntentToAlarmActivity.putExtra("Time", "0.0");
+
         this.mAlarmIntent = PendingIntent.getBroadcast(this.mContext, this.mAlarmRequestCode, this.mIntentToAlarmActivity, 0);
+
+
 
         // Setting the hour and the minute of the alarm.
         this.setHourMinute();
@@ -121,6 +131,10 @@ public class AlarmType{
         this.mActivation = activation;
     }
 
+    public void setActiveRepeatDays(ArrayList<Integer> repeatDays){
+        for (Integer day : repeatDays)  this.mActiveRepeatDays.add(day);
+    }
+
     /**
      * Set method.
      * Setting new alarm
@@ -136,7 +150,7 @@ public class AlarmType{
         System.out.println(calendar.getTimeInMillis());
         // setRepeating() lets you specify a precise custom interval--in this case, Once a day.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            this.mAlarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + AlarmManager.INTERVAL_DAY, this.mAlarmIntent);
+            this.mAlarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), this.mAlarmIntent);
         }
     }
 

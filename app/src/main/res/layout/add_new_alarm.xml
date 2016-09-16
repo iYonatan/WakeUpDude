@@ -28,11 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time"
-            android:layout_marginTop="10dp"/>
-        <LinearLayout
+            android:layout_marginTop="20dp"/>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,16 +41,103 @@
                 android:textSize="30sp"
                 android:clickable="true"/>
 
-            <LinearLayout
+            <include layout="@layout/days_of_week"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/repeat_days"
+                android:layout_marginLeft="21dp"
+                android:layout_marginStart="21dp"
+                android:layout_alignBottom="@id/time_new_alarm"
+                android:layout_toRightOf="@id/time_new_alarm"/>
 
-                <ToggleButton
-                    android:id="@+id/day_of_week"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/toggle_selector" />
-            </LinearLayout>
+            <!--<RelativeLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/repeat_days"-->
+                <!--android:layout_marginLeft="21dp"-->
+                <!--android:layout_marginStart="21dp"-->
+                <!--android:layout_alignBottom="@id/time_new_alarm"-->
+                <!--android:layout_toRightOf="@id/time_new_alarm" >-->
+
+                <!--&lt;!&ndash;<ToggleButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;style="@style/AppTheme.WeekDays"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/day_of_week_sun"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOff="S"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOn="S"/>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ToggleButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;style="@style/AppTheme.WeekDays"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/day_of_week_mon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/day_of_week_sun"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOff="M"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOn="M"/>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ToggleButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/day_of_week_thu"&ndash;&gt;-->
+                    <!--&lt;!&ndash;style="@style/AppTheme.WeekDays"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/day_of_week_mon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOff="T"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOn="T"/>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ToggleButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/day_of_week_wen"&ndash;&gt;-->
+                    <!--&lt;!&ndash;style="@style/AppTheme.WeekDays"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/day_of_week_thu"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOff="W"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOn="W"/>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ToggleButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/day_of_week_tue"&ndash;&gt;-->
+                    <!--&lt;!&ndash;style="@style/AppTheme.WeekDays"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/day_of_week_wen"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOff="T"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOn="T"/>&ndash;&gt;-->
+
+
+
+                <!--&lt;!&ndash;<ToggleButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/day_of_week_fri"&ndash;&gt;-->
+                    <!--&lt;!&ndash;style="@style/AppTheme.WeekDays"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/day_of_week_tue"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOff="F"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOn="F"/>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ToggleButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/day_of_week_sat"&ndash;&gt;-->
+                    <!--&lt;!&ndash;style="@style/AppTheme.WeekDays"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toRightOf="@id/day_of_week_fri"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOff="S"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textOn="S"/>&ndash;&gt;-->
+
+
+
+            <!--</RelativeLayout>-->
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select ringtone"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_circle"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_volume_up_white_18dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Regular"
+                android:textSize="10sp"/>
 
         </LinearLayout>
     </LinearLayout>
