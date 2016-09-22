@@ -53,7 +53,9 @@ public class ResizeAnimation {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 if(interpolatedTime == 1){
-                    v.setVisibility(View.GONE);
+                    v.getLayoutParams().height = 0;
+                    v.requestLayout();
+                    v.setVisibility(View.INVISIBLE);
                 }else{
                     v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
                     v.requestLayout();

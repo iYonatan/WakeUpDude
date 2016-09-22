@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/alarm_item_list"
     android:orientation="vertical">
 
     <LinearLayout
@@ -46,9 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/display_repeat_days"
-                android:layout_alignBottom="@id/alarm_time"
-                android:layout_toRightOf="@id/alarm_time"
-                android:layout_marginBottom="5dp">
+                android:layout_below="@id/alarm_time">
 
                 <TextView
                     style="@style/AppTheme.DisplayWeekDays"
@@ -99,17 +98,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/extend_edit_box"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_week_days">
-
-            <include layout="@layout/days_of_week"/>
-        </LinearLayout>
+        <include layout="@layout/days_of_week"
+            android:id="@+id/edit_week_days"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -1,17 +1,22 @@
 package com.example.yonatan.wakeupdude;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
+import com.example.yonatan.wakeupdude.Animations.ResizeAnimation;
 import com.example.yonatan.wakeupdude.Config.config;
 
 import java.util.ArrayList;
@@ -31,16 +36,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder implements RadialTimePickerDialogFragment.OnTimeSetListener {
         private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
+        private LinearLayout itemContainer, extendableEditBox, displayRepeatDays;
+        private RelativeLayout editRepeatDays;
         public TextView alarmName, alarmTime;
         public Switch alarmSwitch;
-        public LinearLayout editRepeatDays, displayRepeatDays;
         public ViewHolder(View v) {
             super(v);
+
+            itemContainer = (LinearLayout) v.findViewById(R.id.alarm_item_list);
+            itemContainer.setClickable(true);
+
+            extendableEditBox = (LinearLayout) v.findViewById(R.id.extend_edit_box);
+            displayRepeatDays = (LinearLayout) v.findViewById(R.id.display_repeat_days);
+            editRepeatDays = (RelativeLayout) v.findViewById(R.id.edit_week_days);
+
             alarmName = (TextView) v.findViewById(R.id.alarm_name);
             alarmTime = (TextView) v.findViewById(R.id.alarm_time);
             alarmSwitch = (Switch) v.findViewById(R.id.alarm_active_switch);
-            editRepeatDays = (LinearLayout) v.findViewById(R.id.edit_week_days);
-            displayRepeatDays = (LinearLayout) v.findViewById(R.id.display_repeat_days);
         }
 
 
@@ -85,6 +97,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         activity = actv;
     }
 
+
     // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -100,9 +113,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final AlarmType alarmInfo = mDataset.get(position);
+
         holder.alarmName.setText(alarmInfo.getName());
         holder.alarmTime.setText(alarmInfo.getTime());
         holder.alarmSwitch.setChecked(true);
+
+        for (int day = 0; day < config.DAYS_IN_WEEK; day ++) {
+            if (alarmInfo.mActiveRepeatDays.contains(day + 1)) {
+                ((TextView) holder.displayRepeatDays.getChildAt(day))
+                        .setTextColor(ContextCompat.getColor(activity, R.color.colorActiveDayDisplay));
+            } else {
+                ((TextView) holder.displayRepeatDays.getChildAt(day))
+                        .setTextColor(ContextCompat.getColor(activity, R.color.colorInactiveDayDisplay));
+            }
+        }
+
 
         alarmInfo.setAlarm();
 
@@ -126,17 +151,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 holder.onCreateRadialTime(fragmentManager);
             }
         });
-        for (int day = 0; day < holder.editRepeatDays.getChildCount(); day++) {
-            final int finalDay = day;
-            System.out.println(finalDay);
-            holder.editRepeatDays.getChildAt(day).setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    System.out.println(finalDay);
-                    ((TextView)holder.displayRepeatDays.getChildAt(finalDay)).setText("Selected");
-                }});
-        }
-        //holder.editRepeatDays.getChildAt(0).setOnClickListener(new View.OnClickListener(){@Override public void onClick(View v) {}});
+
+        holder.itemContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.extendableEditBox.getHeight() <= 1)
+                    ResizeAnimation.expand(holder.extendableEditBox);
+                else{
+                    for (int day = 0; day < holder.editRepeatDays.getChildCount(); day++) {
+
+                        if (((ToggleButton)holder.editRepeatDays.getChildAt(day)).isChecked()) {
+                            ((TextView) holder.displayRepeatDays.getChildAt(day))
+                                    .setTextColor(ContextCompat.getColor(activity.getApplicationContext(), R.color.colorActiveDayDisplay));
+
+                            alarmInfo.addRepeatDay(day + 1);
+                        } else {
+                            ((TextView) holder.displayRepeatDays.getChildAt(day))
+                                    .setTextColor(ContextCompat.getColor(activity.getApplicationContext(), R.color.colorInactiveDayDisplay));
+
+                            alarmInfo.removeRepeatDay(day + 1);
+                        }
+                    }
+                    ResizeAnimation.collapse(holder.extendableEditBox);
+                }
+            }
+        });
+
     }
 
 

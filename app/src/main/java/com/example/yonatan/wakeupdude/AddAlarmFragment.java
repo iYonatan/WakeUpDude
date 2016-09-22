@@ -13,10 +13,10 @@ import android.widget.ToggleButton;
 
 import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.example.yonatan.wakeupdude.Config.config;
-import com.example.yonatan.wakeupdude.Enums.DAY_ORDER;
 import com.example.yonatan.wakeupdude.Interfaces.FragmentCommunicator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Yonatan on 8/16/2016.
@@ -81,8 +81,6 @@ public class AddAlarmFragment extends android.support.v4.app.Fragment implements
 
         for (int day = 0; day < repeatDays.getChildCount(); day++)
             if (((ToggleButton)repeatDays.getChildAt(day)).isChecked()) mActiveRepeatDays.add(day + 1);
-
-        System.out.println(mActiveRepeatDays );
     }
 
 

@@ -37,13 +37,14 @@
     </style>
 
     <style name="AppTheme.DisplayWeekDays">
-        <item name="android:layout_width">17dp</item>
-        <item name="android:layout_height">17dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">false</item>
+        <item name="android:layout_marginRight">5dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/bpblack</item>
+        <item name="android:textColor">@color/colorInactiveDayDisplay</item>
         <item name="android:background">@color/bpTransparent</item>
     </style>
 

@@ -11,6 +11,7 @@ import com.example.yonatan.wakeupdude.Costum.AlarmManagerBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.regex.Pattern;
 
 /**
@@ -20,9 +21,9 @@ import java.util.regex.Pattern;
 public class AlarmType{
 
     public String mName, mAlarmTime;
+    public ArrayList<Integer> mActiveRepeatDays;
     private int mAlarmRequestCode, mHour, mMinute;
     private boolean mActivation;
-    private ArrayList<Integer> mActiveRepeatDays;
 
     private Context mContext;
     private AlarmManager mAlarmMgr;
@@ -31,7 +32,7 @@ public class AlarmType{
 
     /**
      * Constructor.
-     *  @param alarmRequestCode
+     * @param alarmRequestCode
      * @param context   main context
      * @param name      alarm name
      * @param alarmTime alarm time in String (ex: 17:27)
@@ -45,14 +46,15 @@ public class AlarmType{
         this.mContext = context; // Main context
 
         // Setting the repeat days of the week
-        this.mActiveRepeatDays = new ArrayList<>();
-        this.setActiveRepeatDays(activeRepeatDays);
+        this.mActiveRepeatDays = new ArrayList<>(activeRepeatDays);
 
         // Getting alarm service.
         this.mAlarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
 
         this.mIntentToAlarmActivity = new Intent(this.mContext, AlarmManagerBroadcastReceiver.class);
-        this.mIntentToAlarmActivity.putExtra("Time", "0.0");
+        this.mIntentToAlarmActivity.putExtra("ID", this.mAlarmRequestCode);
+        this.mIntentToAlarmActivity.putExtra("Active_Repeat_Days", this.mActiveRepeatDays);
+        this.mIntentToAlarmActivity.putExtra("Time", this.mAlarmTime);
 
         this.mAlarmIntent = PendingIntent.getBroadcast(this.mContext, this.mAlarmRequestCode, this.mIntentToAlarmActivity, 0);
 
@@ -131,9 +133,15 @@ public class AlarmType{
         this.mActivation = activation;
     }
 
-    public void setActiveRepeatDays(ArrayList<Integer> repeatDays){
-        for (Integer day : repeatDays)  this.mActiveRepeatDays.add(day);
+    public void addRepeatDay(int day){
+        if (!this.mActiveRepeatDays.contains(day)){ this.mActiveRepeatDays.add(day); }
     }
+
+    public void removeRepeatDay(int day){
+        if (this.mActiveRepeatDays.contains(day)) { this.mActiveRepeatDays.remove((Integer) day); }
+    }
+
+
 
     /**
      * Set method.
@@ -142,15 +150,14 @@ public class AlarmType{
     public void setAlarm(){
         // Set the alarm time
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.getmHour());
         calendar.set(Calendar.MINUTE, this.getmMinute());
         calendar.set(Calendar.SECOND, 0);
 
-        System.out.println(calendar.getTimeInMillis());
         // setRepeating() lets you specify a precise custom interval--in this case, Once a day.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             this.mAlarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), this.mAlarmIntent);
+            System.out.println(config.ALARM_TYPE + "Alarm has set");
         }
     }
 

@@ -5,4 +5,6 @@
     <color name="colorAccent">#347172</color>
     <color name="colorTitle">#383738</color>
     <color name="colorText">#FFFF</color>
+    <color name="colorActiveDayDisplay">#347172</color>
+    <color name="colorInactiveDayDisplay">#b1b1b1</color>
 </resources>
